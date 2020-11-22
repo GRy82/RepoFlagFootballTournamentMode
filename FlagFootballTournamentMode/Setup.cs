@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProblemSolving1;
 
 namespace FlagFootballTournamentMode
 {
@@ -13,7 +14,6 @@ namespace FlagFootballTournamentMode
 
         public void Launch()
         {
-            WelcomeMessage();
             GenerateTeams();
             int numberOfPLayers = GetNumberOfPlayers();
             InsertPlayers(numberOfPLayers);
@@ -21,7 +21,7 @@ namespace FlagFootballTournamentMode
             DisplayTeams();
         }
 
-        private void WelcomeMessage()
+        public void WelcomeMessage()
         {
             Console.WriteLine("Welcome to Boston Co-ed Flag Football: TOURNAMENT MODE!!");
             Console.WriteLine("\nLet's make flag fooball more competitive and less fun!");
@@ -47,7 +47,7 @@ namespace FlagFootballTournamentMode
             int playerCount = playersList.Count;
             int teamCount = teamsList.Count;
             int remainder = playerCount % teamCount;
-            int smallestNumOfPlayersPerTeam = teamCount / playerCount;
+            int smallestNumOfPlayersPerTeam = playerCount / teamCount;
             if (remainder == 0)
             {
                 for (int i = 0; i < teamCount; i++)
