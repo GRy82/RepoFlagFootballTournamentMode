@@ -12,7 +12,7 @@ namespace FlagFootballTournamentMode
         public static int GenerateNumber(int lowerBound, int upperBound)
         {
             Random random = new Random();
-            int randGenNum = random.Next(lowerBound, upperBound + 1);
+            int randGenNum = random.Next(lowerBound, upperBound);
             return randGenNum;
         }
     }

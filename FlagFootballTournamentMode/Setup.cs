@@ -78,7 +78,7 @@ namespace FlagFootballTournamentMode
                 {
                     do
                     {
-                        teamNumber = RandomNumberGen.GenerateNumber(1, teamsList.Count);
+                        teamNumber = RandomNumberGen.GenerateNumber(0, teamsList.Count);
                     } while (teamsList[teamNumber].quarterBackCount > smallestQbQty); //Ensures a quarterback can't be added to an already QB-stacked team.
                     teamsList[teamNumber].roster.Add(playersList[i]);
                     teamsList[teamNumber].quarterBackCount++;
@@ -103,10 +103,10 @@ namespace FlagFootballTournamentMode
                 if (playersList[i].proficientQB == false)
                 {
                     do {
-                        randomTeamNumber = RandomNumberGen.GenerateNumber(1, teamsList.Count);
-                    } while (teamsList[randomTeamNumber].roster.Count + 1 >= teamsList[randomTeamNumber].maxNumberOfPlayers);
+                        randomTeamNumber = RandomNumberGen.GenerateNumber(0, teamsList.Count);
+                    } while (teamsList[randomTeamNumber].roster.Count + 1 > teamsList[randomTeamNumber].maxNumberOfPlayers);
                     teamsList[randomTeamNumber].roster.Add(playersList[i]);
-                    playersList[i].team = i + 1;
+                    playersList[i].team = randomTeamNumber + 1;
                 }
             }
         }
@@ -115,7 +115,7 @@ namespace FlagFootballTournamentMode
         private void GenerateTeams()
         {
             string teamQuantInput;
-            Console.Write("Enter number of teams that will be in the tournament:");
+            Console.Write("\nEnter number of teams that will be in the tournament: ");
             do
             {
                 teamQuantInput = Console.ReadLine();
@@ -162,7 +162,7 @@ namespace FlagFootballTournamentMode
         private int GetNumberOfPlayers()
         {
             string playerQuantInput;
-            Console.Write("Enter the current number of players(players can be added later): ");
+            Console.Write("\nEnter the current number of players(players can be added later): ");
             do
             {
                 playerQuantInput = Console.ReadLine();
@@ -177,11 +177,12 @@ namespace FlagFootballTournamentMode
             string name;
             string proficientQBResponse;
             for (int i = 0; i < numberOfPlayers; i++){
-                Console.Write($"Enter player number{i + 1}'s name(eg. John S.): ");
+                Console.Write($"\nEnter player number{i + 1}'s name(eg. John S.): ");
                 do
                 {
                     name = Console.ReadLine();
                 } while (!ValidateName(name));
+                playersList.Add(new Player());
                 playersList[i].idNum = i + 1;
                 playersList[i].name = name;
                 Console.WriteLine("Is this player a proficient QB?(y/n)");
@@ -194,7 +195,7 @@ namespace FlagFootballTournamentMode
                 Console.WriteLine("\nPlayer successfully added. See updated player list:\n");
                 DisplayPlayerList();
             }
-            
+            Continue();
         }
 
         private bool ValidateName(string name)
@@ -206,9 +207,9 @@ namespace FlagFootballTournamentMode
             }
             int spaceCount = 0;
 
-            for (int i = 0; i < name.Length - 1; i++)
+            for (int i = 0; i < (name.Length - 1); i++)
             {
-                if (name[i] < 65 || name[i] > 122 || (name[i] > 90 && name[i] < 97) || name[i] != 32)
+                if ((name[i] < 65 && name[i] != 32)  || name[i] > 122 || (name[i] > 90 && name[i] < 97))
                 {
                     Console.Write("\nAlphabetical characters only: ");
                     return false;
@@ -222,7 +223,7 @@ namespace FlagFootballTournamentMode
             {
                 Console.Write("\nThere can only be one space, between first name and last initial. Please re-enter name: ");
             }
-            if (name[name.Length] != '.')
+            if (name[name.Length - 1] != '.')
             {
                 Console.Write("\nAdd a '.' after initials. Please re-enter name: ");
                 return false;
@@ -232,9 +233,9 @@ namespace FlagFootballTournamentMode
 
         private bool ValidateYN(string response)
         {
-            if (response != "y" || response != "no")
+            if (response != "y" && response != "n")
             {
-                Console.Write("Reponse must be a 'y' or 'n' for yes or no. Please re-enter your response: ");
+                Console.Write("\nReponse must be a 'y' or 'n' for yes or no. Please re-enter your response: ");
                 return false;
             }
             return true;
@@ -268,9 +269,11 @@ namespace FlagFootballTournamentMode
                 Console.WriteLine($"Team{teamNumber} roster:");
                 foreach (Player player in teamsList[teamNumber - 1].roster)
                 {
-                    Console.WriteLine(player.name + "(" + player.idNum + ")" + "QB: " + player.proficientQB);
+                    Console.WriteLine("(" + player.idNum + ")        " + player.name +  "        QB: " + player.proficientQB);
                 }
+                teamNumber++;
             }
+            Continue();
 
         }
     }
