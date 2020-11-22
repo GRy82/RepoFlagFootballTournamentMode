@@ -17,7 +17,8 @@ namespace FlagFootballTournamentMode
             GenerateTeams();
             int numberOfPLayers = GetNumberOfPlayers();
             InsertPlayers(numberOfPLayers);
-
+            AssignPlayersToTeams();
+            DisplayTeams();
         }
 
         private void WelcomeMessage()
@@ -33,6 +34,83 @@ namespace FlagFootballTournamentMode
             Console.WriteLine("\n\nPress 'enter' to continue");
             string emptyString = Console.ReadLine();
         }
+
+        private void AssignPlayersToTeams()
+        {
+            DetermineTeamSizes();
+            DistributeQuarterBacks();
+            DistributeNonQBPlayers();
+        }
+
+        private void DetermineTeamSizes()
+        {
+            int playerCount = playersList.Count;
+            int teamCount = teamsList.Count;
+            int remainder = playerCount % teamCount;
+            int smallestNumOfPlayersPerTeam = teamCount / playerCount;
+            if (remainder == 0)
+            {
+                for (int i = 0; i < teamCount; i++)
+                {
+                    teamsList[i].maxNumberOfPlayers = smallestNumOfPlayersPerTeam;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < remainder; i++)
+                {
+                    teamsList[i].maxNumberOfPlayers = smallestNumOfPlayersPerTeam + 1;
+                }
+                for (int i = remainder; i < teamCount; i++)
+                {
+                    teamsList[i].maxNumberOfPlayers = smallestNumOfPlayersPerTeam;
+                }
+            }
+        }
+
+        private void DistributeQuarterBacks()
+        {
+            int smallestQbQty = 0;
+            int teamNumber = 0;
+            for (int i = 0; i < playersList.Count; i++)
+            {
+                if (playersList[i].proficientQB == true)
+                {
+                    do
+                    {
+                        teamNumber = RandomNumberGen.GenerateNumber(1, teamsList.Count);
+                    } while (teamsList[teamNumber].quarterBackCount > smallestQbQty); //Ensures a quarterback can't be added to an already QB-stacked team.
+                    teamsList[teamNumber].roster.Add(playersList[i]);
+                    teamsList[teamNumber].quarterBackCount++;
+                    playersList[i].team = i + 1;
+                    smallestQbQty = teamsList[0].quarterBackCount;
+                    for (int j = 0; j < teamsList.Count; j++)//Every time a quarterback is added to a team, find what team has the least QB's.
+                    {
+                        if (teamsList[j].quarterBackCount < smallestQbQty)
+                        {
+                            smallestQbQty = teamsList[j].quarterBackCount;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void DistributeNonQBPlayers()
+        {
+            int randomTeamNumber;
+            for (int i = 0; i < playersList.Count; i++)
+            {
+                if (playersList[i].proficientQB == false)
+                {
+                    do {
+                        randomTeamNumber = RandomNumberGen.GenerateNumber(1, teamsList.Count);
+                    } while (teamsList[randomTeamNumber].roster.Count + 1 >= teamsList[randomTeamNumber].maxNumberOfPlayers);
+                    teamsList[randomTeamNumber].roster.Add(playersList[i]);
+                    playersList[i].team = i + 1;
+                }
+            }
+        }
+
 
         private void GenerateTeams()
         {
@@ -180,6 +258,11 @@ namespace FlagFootballTournamentMode
             {
                 Console.WriteLine(player.idNum + ": " + player.name);
             }
+        }
+
+        private void DisplayTeams()
+        {
+
         }
     }
 }

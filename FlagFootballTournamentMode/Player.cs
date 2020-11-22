@@ -11,5 +11,6 @@ namespace FlagFootballTournamentMode
         public string name;
         public int idNum;
         public bool proficientQB;
+        public int team = 0;
     }
 }

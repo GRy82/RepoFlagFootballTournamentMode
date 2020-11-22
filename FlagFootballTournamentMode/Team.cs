@@ -8,5 +8,9 @@ namespace FlagFootballTournamentMode
 {
     class Team
     {
+
+        public int maxNumberOfPlayers;
+        public int quarterBackCount;
+        public List<Player> roster = new List<Player> { };
     }
 }
