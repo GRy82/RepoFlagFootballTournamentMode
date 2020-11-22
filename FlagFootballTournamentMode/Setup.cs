@@ -23,7 +23,7 @@ namespace FlagFootballTournamentMode
 
         private void WelcomeMessage()
         {
-            Console.WriteLine("Welcome to Bosotn Coed Flag Football: TOURNAMENT MODE!!");
+            Console.WriteLine("Welcome to Boston Co-ed Flag Football: TOURNAMENT MODE!!");
             Console.WriteLine("\nLet's make flag fooball more competitive and less fun!");
             Console.WriteLine("           -Founder, Donny Nicolosi");
             Continue();
@@ -262,6 +262,15 @@ namespace FlagFootballTournamentMode
 
         private void DisplayTeams()
         {
+            int teamNumber = 1;
+            foreach (Team team in teamsList)
+            {
+                Console.WriteLine($"Team{teamNumber} roster:");
+                foreach (Player player in teamsList[teamNumber - 1].roster)
+                {
+                    Console.WriteLine(player.name + "(" + player.idNum + ")" + "QB: " + player.proficientQB);
+                }
+            }
 
         }
     }
