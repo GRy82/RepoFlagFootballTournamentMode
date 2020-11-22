@@ -8,5 +8,8 @@ namespace FlagFootballTournamentMode
 {
     class Player
     {
+        public string name;
+        public int idNum;
+        public bool proficientQB;
     }
 }
