@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlagFootballTournamentMode
 {
-    public class RandomNumberGen
+    public static class RandomNumberGen
     {
 
         public static int GenerateNumber(int lowerBound, int upperBound)

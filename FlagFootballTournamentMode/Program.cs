@@ -10,7 +10,8 @@ namespace FlagFootballTournamentMode
     {
         static void Main(string[] args)
         {
-
+            Setup setup = new Setup();
+            setup.Launch();
         }
     }
 }
